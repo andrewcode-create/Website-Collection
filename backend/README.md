@@ -1,3 +1,3 @@
 # Backend
 
-This is the backend. This will be possible to self-host.
+This is the backend. It uses express.
