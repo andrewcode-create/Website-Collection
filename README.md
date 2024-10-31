@@ -9,5 +9,3 @@ This webiste will feature:
 3. An option to add new websites and modify the layout.
 
 Additionally, there will be an option to self-host.
-
-This website will use React or Vue -- I haven't decided yet.
