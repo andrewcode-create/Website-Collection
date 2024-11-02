@@ -21,8 +21,9 @@ body, html {
   border-right: 1px solid #333;
 }
 
-.sidebar h3 {
+.sidebar-text {
   color: #ffffff;
+  text-align: center;
 }
 
 .webite-button {

@@ -29,7 +29,7 @@ function App() {
   return (
     <div className="app-container">
       <div className="sidebar">
-        <h3>Websites</h3>
+        <h3 className="sidebar-text">Websites</h3>
         <button className="webite-button" onClick={() => handleButtonClick('https://example.com')}>Example</button>
         <button className="webite-button" onClick={() => handleButtonClick('https://www.nhc.noaa.gov/gtwo.php')}>Tropical Outlook</button>
         <button className="webite-button" onClick={() => handleButtonClick('https://www.spc.noaa.gov/products/outlook/')}>Convective Outlooks</button>
