@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 import { useProtectedData } from "./hooks/useProtectedData";
 
-function Websites({ logout }) {
+function Websites({ logout, login_component }) {
   const iframeRef = useRef(null);
   const [iframeHeight, setIframeHeight] = useState(window.innerHeight);
   const [iframeWidth, setIframeWidth] = useState(window.innerHeight);
@@ -28,6 +28,9 @@ function Websites({ logout }) {
   };
 
   if (loading) return <p>Loading...</p>;
+  if (error === "User not authenticated") {
+    return <div>{login_component}</div>;
+  }
   if (error) return <p>Error: {error}</p>;
 
   const config = data.json;

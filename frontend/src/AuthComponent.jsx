@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Websites from "./Websites";
+import Login from "./Login";
 
 const backend = "http://localhost:3000";
 
@@ -52,31 +53,35 @@ function AuthComponent() {
     }
   }, [token]);
 
+  const getPassword = () => password;
+  const getEmail = () => email;
+
   return (
     <div>
-      <h1>Login:</h1>
       {!token ? (
-        <div>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button onClick={register}>Register</button>
-          <button onClick={login}>Login</button>
-        </div>
+        <Login
+          email={email}
+          setEmail={setEmail}
+          password={password}
+          setPassword={setPassword}
+          login={login}
+          register={register}
+        />
       ) : (
         <div>
-          <p>Welcome!</p>
-          <button onClick={logout}>Logout</button>
-          <Websites logout={logout} />
+          <Websites
+            logout={logout}
+            login_component={
+              <Login
+                email={email}
+                setEmail={setEmail}
+                password={password}
+                setPassword={setPassword}
+                login={login}
+                register={register}
+              />
+            }
+          />
         </div>
       )}
     </div>
