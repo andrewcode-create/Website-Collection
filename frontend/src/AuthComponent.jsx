@@ -3,12 +3,14 @@ import axios from "axios";
 import Websites from "./Websites";
 import Login from "./Login";
 
+const Storage = localStorage;
+
 const backend = "http://localhost:3000";
 
 function AuthComponent() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [token, setToken] = useState(Storage.getItem("token"));
 
   const register = async () => {
     var msg = "";
@@ -21,7 +23,11 @@ function AuthComponent() {
         err.message,
         err.response.data.message
       );
-      alert(`Registration failed! ${err.response.data.message}`);
+      alert(
+        `Registration failed! ${
+          err.response?.data?.message || "An unexpected error occurred"
+        }`
+      );
     }
   };
 
@@ -31,7 +37,7 @@ function AuthComponent() {
         email,
         password,
       });
-      sessionStorage.setItem("token", response.data.token);
+      Storage.setItem("token", response.data.token);
       setToken(response.data.token);
       alert("Login successful!");
     } catch (error) {
@@ -42,7 +48,7 @@ function AuthComponent() {
 
   const logout = () => {
     setToken(null);
-    sessionStorage.removeItem("token");
+    Storage.removeItem("token");
     alert("Logged out!");
   };
 
@@ -52,9 +58,6 @@ function AuthComponent() {
       console.log("User is logged in");
     }
   }, [token]);
-
-  const getPassword = () => password;
-  const getEmail = () => email;
 
   return (
     <div>
