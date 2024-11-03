@@ -1,11 +1,13 @@
+import "./Login.css";
+
 const Login = ({ email, setEmail, password, setPassword, register, login }) => {
-  const isFormValid = email.includes("@") && password.length > 6;
+  const isFormValid = email && password.length > 6;
   return (
-    <div>
+    <div className="Login">
       <h1>Login:</h1>
       <input
-        type="email"
-        placeholder="Email"
+        type="text"
+        placeholder="Username"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
