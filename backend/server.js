@@ -31,9 +31,27 @@ const User = mongoose.model(
   new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    //salt: { type: String, required: true },
+    salt: { type: String, required: true },
   })
 );
+
+// Check if password is acceptable
+const check_password = async (username, password) => {
+  if (password.toLowerCase().contains(username.toLowerCase())) {
+    return { passed: false, msg: "Password may not contain the username" };
+  }
+  if (password.length < 6) {
+    return { passed: false, msg: "Password must be over 6 characters" };
+  }
+  if (password.length > 127) {
+    return {
+      passed: false,
+      msg: "Password should not be over 127 characters. You shouldn't be securing anything that sensitive on this website anyway.",
+    };
+  }
+
+  return { passed: true, msg: "Success!" };
+};
 
 // Authentication middleware function
 function authenticateToken(req, res, next) {
@@ -57,9 +75,19 @@ function authenticateToken(req, res, next) {
 // Register route
 app.post("/register", async (req, res) => {
   const { email, password } = req.body;
+  const result = await check_password(email, password);
+  if (!result.passed) {
+    res.status(500).send({ message: result.message });
+  }
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ email, password: hashedPassword });
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const newUser = new User({
+      email: email,
+      password: hashedPassword,
+      salt: salt,
+    });
     console.log("waiting for user.");
     await newUser.save();
     console.log("registered user.");
