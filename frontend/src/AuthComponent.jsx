@@ -7,13 +7,12 @@ const Storage = localStorage;
 
 const backend = "http://localhost:3000";
 
-function AuthComponent() {
+function AuthComponent({ theme, toggleTheme }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [token, setToken] = useState(Storage.getItem("token"));
 
   const register = async () => {
-    var msg = "";
     try {
       const res = await axios.post(`${backend}/register`, { email, password });
       alert("User registered successfully!");
@@ -59,10 +58,17 @@ function AuthComponent() {
     }
   }, [token]);
 
+  console.log(`theme: ${theme}`);
+
   return (
     <div>
       {token ? (
-        <Websites logout={logout} storage={Storage} />
+        <Websites
+          logout={logout}
+          storage={Storage}
+          theme={theme}
+          toggleTheme={toggleTheme}
+        />
       ) : (
         <Login
           email={email}
@@ -72,6 +78,8 @@ function AuthComponent() {
           login={login}
           register={register}
           storage={Storage}
+          theme={theme}
+          toggleTheme={toggleTheme}
         />
       )}
     </div>

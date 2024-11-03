@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 import { useProtectedData } from "./hooks/useProtectedData";
 
-function Websites({ logout, storage }) {
+function Websites({ logout, storage, theme, toggleTheme }) {
   const iframeRef = useRef(null);
   const [iframeHeight, setIframeHeight] = useState(window.innerHeight);
   const [iframeWidth, setIframeWidth] = useState(window.innerHeight);
