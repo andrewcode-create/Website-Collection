@@ -3,7 +3,7 @@ import axios from "axios";
 
 const backend = "http://localhost:3000";
 
-export function useProtectedData(url) {
+export function useProtectedData(url, Storage) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,7 +11,7 @@ export function useProtectedData(url) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = sessionStorage.getItem("token");
+        const token = Storage.getItem("token");
         console.log("Retrieved token:", token);
         if (token !== null && token !== "") {
           console.log(`token: ${token}`);
