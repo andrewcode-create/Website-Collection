@@ -76,7 +76,7 @@ function AuthComponent() {
         <div>
           <p>Welcome!</p>
           <button onClick={logout}>Logout</button>
-          <Websites />
+          <Websites logout={logout} />
         </div>
       )}
     </div>

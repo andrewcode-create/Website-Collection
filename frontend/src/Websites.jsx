@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 import { useProtectedData } from "./hooks/useProtectedData";
 
-function Websites() {
+function Websites({ logout }) {
   const iframeRef = useRef(null);
   const [iframeHeight, setIframeHeight] = useState(window.innerHeight);
   const [iframeWidth, setIframeWidth] = useState(window.innerHeight);
@@ -61,7 +61,8 @@ function Websites() {
           onClick={() => handleButtonClick("https://www.tropicaltidbits.com/")}
         >
           Tropical Tidbits
-        </button>{" "}
+        </button>
+        <button onClick={logout}>Logout</button>
         {/*todo catch this error*/}
         {/* Add more buttons as needed */}
       </div>
