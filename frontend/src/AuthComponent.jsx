@@ -25,7 +25,7 @@ function AuthComponent() {
         email,
         password,
       });
-      localStorage.setItem("token", token);
+      sessionStorage.setItem("token", response.data.token);
       setToken(response.data.token);
       alert("Login successful!");
     } catch (error) {
@@ -36,7 +36,7 @@ function AuthComponent() {
 
   const logout = () => {
     setToken(null);
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     alert("Logged out!");
   };
 

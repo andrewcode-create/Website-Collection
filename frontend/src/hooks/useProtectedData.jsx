@@ -11,7 +11,7 @@ export function useProtectedData(url) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         console.log("Retrieved token:", token);
         if (token !== null && token !== "") {
           console.log(`token: ${token}`);
