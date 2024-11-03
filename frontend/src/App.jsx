@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./App.css";
-import Websites from "./Websites";
+
 import AuthComponent from "./AuthComponent";
 
 const toggleTheme = () => {
@@ -14,7 +13,7 @@ const toggleTheme = () => {
 function App() {
   const [theme, setTheme] = useState("Light");
   return (
-    <div>
+    <div className={theme}>
       <AuthComponent theme={theme} toggleTheme={toggleTheme} />
     </div>
   );

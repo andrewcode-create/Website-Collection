@@ -1,4 +1,5 @@
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -8,9 +9,16 @@ body, html {
 .app-container {
   display: flex;
   height: auto;
+
+  font-family: inherit;
+}
+.app-container.Dark {
   background-color: #121212;
   color: #ffffff;
-  font-family: inherit;
+}
+.app-container.Light {
+  background-color: #f0f0f0;
+  color: #000000;
 }
 
 .sidebar {
@@ -45,8 +53,6 @@ body, html {
 .webite-button:hover {
   background-color: #444;
 }
-
-
 
 .iframe-container {
   flex-grow: 1;
