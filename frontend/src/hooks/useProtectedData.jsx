@@ -26,7 +26,16 @@ export function useProtectedData(url, Storage) {
           throw new Error("User not authenticated");
         }
       } catch (err) {
-        setError(err.message);
+        if (err.response && err.response.status === 403) {
+          // Handle token expiration (401 Unauthorized)
+          console.error("Token expired:", err.response.data.message);
+          alert("Session expired. Please log in again.");
+          localStorage.removeItem("token");
+          window.location.reload(); // Optionally, redirect to the login page
+        } else {
+          console.error("Error fetching data:", err.message);
+          setError(err.message);
+        }
       } finally {
         setLoading(false);
       }
