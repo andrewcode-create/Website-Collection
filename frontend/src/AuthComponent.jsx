@@ -61,7 +61,9 @@ function AuthComponent() {
 
   return (
     <div>
-      {!token ? (
+      {token ? (
+        <Websites logout={logout} />
+      ) : (
         <Login
           email={email}
           setEmail={setEmail}
@@ -70,22 +72,6 @@ function AuthComponent() {
           login={login}
           register={register}
         />
-      ) : (
-        <div>
-          <Websites
-            logout={logout}
-            login_component={
-              <Login
-                email={email}
-                setEmail={setEmail}
-                password={password}
-                setPassword={setPassword}
-                login={login}
-                register={register}
-              />
-            }
-          />
-        </div>
       )}
     </div>
   );
