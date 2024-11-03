@@ -3,7 +3,7 @@ import "./Login.css";
 const Login = ({ email, setEmail, password, setPassword, register, login }) => {
   const isFormValid = email && password.length > 6;
   return (
-    <div className="Login">
+    <div className="Login Light">
       <h1>Login:</h1>
       <input
         type="text"
