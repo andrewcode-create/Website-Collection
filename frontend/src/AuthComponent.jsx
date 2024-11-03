@@ -10,12 +10,17 @@ function AuthComponent() {
   const [token, setToken] = useState(localStorage.getItem("token"));
 
   const register = async () => {
+    var msg = "";
     try {
-      await axios.post(`${backend}/register`, { email, password });
+      const res = await axios.post(`${backend}/register`, { email, password });
       alert("User registered successfully!");
-    } catch (error) {
-      console.error("Registration error:", error.message);
-      alert("Registration failed!");
+    } catch (err) {
+      console.error(
+        "Registration error:",
+        err.message,
+        err.response.data.message
+      );
+      alert(`Registration failed! ${err.response.data.message}`);
     }
   };
 

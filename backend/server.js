@@ -37,7 +37,7 @@ const User = mongoose.model(
 
 // Check if password is acceptable
 const check_password = async (username, password) => {
-  if (password.toLowerCase().contains(username.toLowerCase())) {
+  if (password.toLowerCase().includes(username.toLowerCase())) {
     return { passed: false, msg: "Password may not contain the username" };
   }
   if (password.length < 6) {
@@ -77,7 +77,8 @@ app.post("/register", async (req, res) => {
   const { email, password } = req.body;
   const result = await check_password(email, password);
   if (!result.passed) {
-    res.status(500).send({ message: result.message });
+    res.status(400).send({ message: result.msg });
+    return;
   }
   try {
     const salt = await bcrypt.genSalt(10);
