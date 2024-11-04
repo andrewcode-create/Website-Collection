@@ -29,9 +29,15 @@ mongoose
 const User = mongoose.model(
   "User",
   new mongoose.Schema({
-    email: { type: String, required: true, unique: true },
+    username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     salt: { type: String, required: true },
+    settings: {
+      theme: {
+        theme: { type: String, default: "Dark" },
+        /* add more settings here */
+      },
+    },
   })
 );
 
@@ -85,7 +91,7 @@ app.post("/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = new User({
-      email: email,
+      username: email,
       password: hashedPassword,
       salt: salt,
     });
@@ -103,9 +109,9 @@ app.post("/register", async (req, res) => {
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ username: email });
     if (user && (await bcrypt.compare(password, user.password))) {
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      const token = jwt.sign({ id: user.username }, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
       res.status(200).send({ message: "Login successful", token });
@@ -119,17 +125,45 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/settings", authenticateToken, async (req, res) => {
-  //check header for correct token
-  //request mongo for settings
-  //send the settings in json form
-  res.status(200).send({ message: "Settings are not implemented yet." });
+  try {
+    // Check for the correct token (handled by authenticateToken middleware)
+
+    // Request MongoDB for settings
+    const settings = await User.findOne({ username: req.user.id }); // Assuming you're storing settings by userId
+    if (!settings) {
+      return res.status(404).send({ message: "Settings not found." });
+    }
+
+    // Send the settings in JSON form
+    res.status(200).json(settings);
+  } catch (err) {
+    console.error("Error fetching settings:", err);
+    res.status(500).send({ message: "Internal server error." });
+  }
 });
 
+// POST settings
 app.post("/settings", authenticateToken, async (req, res) => {
-  //check header for correct token
-  //request mongo for settings
-  //send the settings in json form
-  res.status(200).send({ message: "Settings are not implemented yet." });
+  try {
+    // Check for the correct token (handled by authenticateToken middleware)
+
+    // Update MongoDB with settings
+    const { settings } = req.body; // Assuming the settings are sent in the body
+    if (!settings) {
+      return res.status(400).send({ message: "Settings data is required." });
+    }
+
+    const updatedSettings = await User.findOneAndUpdate(
+      { username: req.user.id },
+      { $set: settings },
+      { new: true, upsert: true } // Create a new document if one doesn't exist
+    );
+
+    res.status(200).json(updatedSettings);
+  } catch (err) {
+    console.error("Error updating settings:", err);
+    res.status(500).send({ message: "Internal server error." });
+  }
 });
 
 // Start server
