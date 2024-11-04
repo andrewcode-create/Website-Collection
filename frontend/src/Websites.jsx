@@ -39,7 +39,7 @@ function Websites({
 
   useEffect(() => {
     if (theme !== settings.theme) {
-      toggleTheme();
+      setTheme(settings.theme);
     }
   }, [settings]);
 
