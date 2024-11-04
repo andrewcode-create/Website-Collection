@@ -1,4 +1,5 @@
 import "./Login.css";
+import React, { useEffect, useRef, useState } from "react";
 
 const Login = ({
   email,
@@ -10,7 +11,13 @@ const Login = ({
   theme,
   toggleTheme,
 }) => {
+  // Apply theme class to the body
+  useEffect(() => {
+    document.body.className = theme;
+  }, [theme]);
+
   const isFormValid = email && password.length > 6;
+
   return (
     <div className={`Login ${theme}`}>
       <h1>Login:</h1>

@@ -23,6 +23,10 @@ function Websites({ logout, storage, theme, toggleTheme }) {
     };
   }, []);
 
+  useEffect(() => {
+    document.body.className = theme;
+  }, [theme]);
+
   const handleButtonClick = (url) => {
     setIframeSrc(url);
     setRefresh(refresh + 1);
@@ -40,8 +44,8 @@ function Websites({ logout, storage, theme, toggleTheme }) {
   const config = data.json;
 
   return (
-    <div className="app-container">
-      <div className="sidebar">
+    <div className={`app-container ${theme}`}>
+      <div className={`sidebar ${theme}`}>
         <h3 className="sidebar-text">Websites</h3>
         <button
           className="webite-button"
@@ -71,8 +75,9 @@ function Websites({ logout, storage, theme, toggleTheme }) {
         </button>
         <button onClick={logout}>Logout</button>
 
-        {/*todo catch this error*/}
-        {/* Add more buttons as needed */}
+        <button className="webite-button" onClick={toggleTheme}>
+          Toggle Theme
+        </button>
       </div>
 
       <div className="iframe-container">
