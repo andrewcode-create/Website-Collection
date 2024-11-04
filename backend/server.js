@@ -61,7 +61,12 @@ const check_password = async (username, password) => {
 
 // Authentication middleware function
 function authenticateToken(req, res, next) {
-  const token = req.headers["authorization"].split(" ")[1]; // Get token from 'Authorization' header
+  var token = null;
+  try {
+    token = req.headers["authorization"].split(" ")[1]; // Get token from 'Authorization' header
+  } catch {
+    return res.status(401).send({ error: "Access denied. No token provided." });
+  }
   if (!token)
     return res.status(401).send({ error: "Access denied. No token provided." });
 
@@ -75,6 +80,7 @@ function authenticateToken(req, res, next) {
   } catch (err) {
     res.status(403).send({ error: "Invalid or expired token." });
     console.log(err);
+    return;
   }
 }
 
@@ -148,7 +154,7 @@ app.post("/settings", authenticateToken, async (req, res) => {
     // Check for the correct token (handled by authenticateToken middleware)
 
     // Update MongoDB with settings
-    const { settings } = req.body; // Assuming the settings are sent in the body
+    const settings = req.body; // Assuming the settings are sent in the body
     if (!settings) {
       return res.status(400).send({ message: "Settings data is required." });
     }

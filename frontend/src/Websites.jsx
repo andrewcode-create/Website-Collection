@@ -2,14 +2,20 @@ import React, { useEffect, useRef, useState } from "react";
 import "./Websites.css";
 import { useProtectedData } from "./hooks/useProtectedData";
 
-function Websites({ logout, storage, theme, toggleTheme }) {
+function Websites({
+  logout,
+  storage,
+  theme,
+  toggleTheme,
+  setTheme,
+  settings,
+  setSettings,
+}) {
   const iframeRef = useRef(null);
   const [iframeHeight, setIframeHeight] = useState(window.innerHeight);
   const [iframeWidth, setIframeWidth] = useState(window.innerHeight);
   const [iframeSrc, setIframeSrc] = useState("https://example.com");
   const [refresh, setRefresh] = useState(0);
-
-  const [settings, setSettings] = useState(null);
 
   const result = useProtectedData("settings", storage, settings, setSettings);
   const loading = result.loading;
@@ -30,6 +36,12 @@ function Websites({ logout, storage, theme, toggleTheme }) {
   useEffect(() => {
     document.body.className = theme;
   }, [theme]);
+
+  useEffect(() => {
+    if (theme !== settings.theme) {
+      toggleTheme();
+    }
+  }, [settings]);
 
   const handleButtonClick = (url) => {
     setIframeSrc(url);

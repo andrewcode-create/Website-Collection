@@ -7,7 +7,13 @@ const Storage = localStorage;
 
 const backend = "http://localhost:3000";
 
-function AuthComponent({ theme, toggleTheme }) {
+function AuthComponent({
+  theme,
+  toggleTheme,
+  settings,
+  setSettings,
+  setTheme,
+}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [token, setToken] = useState(Storage.getItem("token"));
@@ -68,6 +74,9 @@ function AuthComponent({ theme, toggleTheme }) {
           storage={Storage}
           theme={theme}
           toggleTheme={toggleTheme}
+          settings={settings}
+          setSettings={setSettings}
+          setTheme={setTheme}
         />
       ) : (
         <Login
@@ -80,6 +89,8 @@ function AuthComponent({ theme, toggleTheme }) {
           storage={Storage}
           theme={theme}
           toggleTheme={toggleTheme}
+          settings={settings}
+          setSettings={setSettings}
         />
       )}
     </div>
