@@ -3,8 +3,7 @@ import axios from "axios";
 
 const backend = "http://localhost:3000";
 
-export function useProtectedData(url, Storage) {
-  const [data, setData] = useState(null);
+export function useProtectedData(url, Storage, data, setData) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -20,7 +19,7 @@ export function useProtectedData(url, Storage) {
               Authorization: `Bearer ${token}`,
             },
           });
-
+          console.log("got data");
           setData(response.data);
         } else {
           throw new Error("User not authenticated");
@@ -42,7 +41,29 @@ export function useProtectedData(url, Storage) {
     };
 
     fetchData();
-  }, [url]);
+  }, [url, Storage]);
+
+  useEffect(() => {
+    const postData = async () => {
+      console.log("trying to post data");
+      if (data) {
+        try {
+          const token = Storage.getItem("token");
+          const response = await axios.post(`${backend}/${url}`, data, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          console.log("Data posted successfully:", response.data);
+        } catch (err) {
+          console.error("Error posting data:", err.message);
+          setError(err.message);
+        }
+      }
+    };
+
+    postData();
+  }, [data]);
 
   return { data, loading, error };
 }

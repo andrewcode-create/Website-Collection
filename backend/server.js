@@ -125,6 +125,13 @@ app.get("/settings", authenticateToken, async (req, res) => {
   res.status(200).send({ message: "Settings are not implemented yet." });
 });
 
+app.post("/settings", authenticateToken, async (req, res) => {
+  //check header for correct token
+  //request mongo for settings
+  //send the settings in json form
+  res.status(200).send({ message: "Settings are not implemented yet." });
+});
+
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

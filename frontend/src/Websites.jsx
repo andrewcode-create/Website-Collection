@@ -9,7 +9,11 @@ function Websites({ logout, storage, theme, toggleTheme }) {
   const [iframeSrc, setIframeSrc] = useState("https://example.com");
   const [refresh, setRefresh] = useState(0);
 
-  const { data, loading, error } = useProtectedData("settings", storage);
+  const [settings, setSettings] = useState(null);
+
+  const result = useProtectedData("settings", storage, settings, setSettings);
+  const loading = result.loading;
+  const error = result.error;
 
   useEffect(() => {
     const handleResize = () => {
@@ -32,7 +36,9 @@ function Websites({ logout, storage, theme, toggleTheme }) {
     setRefresh(refresh + 1);
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+    return <p>Loading...</p>;
+  }
   if (error === "User not authenticated") {
     return (
       <p>Not Authenticated.</p>
@@ -40,8 +46,6 @@ function Websites({ logout, storage, theme, toggleTheme }) {
     );
   }
   if (error) return <p>Error: {error}</p>;
-
-  const config = data.json;
 
   return (
     <div className={`app-container ${theme}`}>

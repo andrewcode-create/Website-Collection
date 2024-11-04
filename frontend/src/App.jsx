@@ -11,7 +11,7 @@ function App() {
     }
   };
 
-  const [theme, setTheme] = useState("Dark");
+  const [theme, setTheme] = useState("Light");
 
   return (
     <div className={theme}>
